@@ -25,7 +25,7 @@ We won't need anything else that's not already in base R.
 
 ### Words
 
-We'll need a dictionary. I wanted word frequencies too. After not being satisfied with dictionaries built into CRAN packages, my wanders around the web led me to [Wiktionary](https://en.wiktionary.org/)'s page on [frequency lists](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists#English). I (arbitrarily) opted for a [dataset](https://github.com/hermitdave/FrequencyWords/) developed by analysing an open subtitle corpus.
+We'll need a dictionary. I wanted word frequencies too. After not being satisfied with dictionaries built into CRAN packages, my wander around the web led me to [Wiktionary](https://en.wiktionary.org/)'s page on [frequency lists](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists#English). I (arbitrarily) opted for a [dataset](https://github.com/hermitdave/FrequencyWords/) developed by analysing an open subtitle corpus.
 
 Let's grab it directly from the GitHub repo:
 
@@ -194,7 +194,7 @@ wordles %>%
   head()
 ```
 
-I'll just go for the most frequent word in the remaining data.
+I'll just go for the most frequent word in the remaining data, "blood". (This may not always be the best idea, e.g., the letter "o" occurs twice in "blood"; it might be better to choose a different word with no duplicates and high frequency letters.)
 
 
 ![](wordle_2.png){width=200px}
@@ -232,4 +232,105 @@ Again, let's go for the most frequent match:
 ![](wordle_4.png){width=200px}
 
 And we're done.
+
+
+### Revisiting the word list
+
+Let's see whether frequency analysis can help us be a little cleverer in searching.
+
+First, some functions to count letter frequency.
+
+```{r}
+long_wordles <- function(wordles) {
+  wordle_chars <- sapply(str_split(wordles$word, ""),
+                       c) %>% 
+  t()
+  
+  colnames(wordle_chars) <- paste("c", 1:5, sep = "_")
+  
+  bind_cols(wordles, wordle_chars %>% as_tibble()) %>%
+  pivot_longer(cols = c_1:c_5,
+               names_prefix = "c_",
+               names_to = "pos",
+               values_to = "let")
+}
+```
+
+```{r}
+letter_freqs <- function(wordles) {
+  n_words <- nrow(wordles)
+  
+  wordles %>%
+    long_wordles() %>%
+    group_by(word, freq, let) %>%
+    summarise(n = n()) %>%
+    mutate(b = as.numeric(n > 0)) %>%
+    ungroup() %>%
+    group_by(let) %>%
+    summarise(n = n()) %>%
+    ungroup() %>%
+    mutate(perc = 100*n/n_words) %>%
+    arrange(desc(n))    
+}
+```
+
+Get letter frequencies for 1000 most frequent words:
+
+```{r}
+wordles %>%
+  head(1000) %>%
+  letter_freqs()
+```
+
+The most frequent letters are "e", "a", "s", "r", and "o". Let's find a word with those letters:
+
+```{r}
+wordles %>%
+  keep_letters("easro") %>%
+  head()
+```
+
+Give it a go:
+
+![](2nd_wordle_1.png){width=200px}
+
+We can ditch some letters:
+
+```{r}
+wordles %>%
+  keep_pattern (".r...") %>%
+  keep_letters("a") %>%
+  ditch_pattern("a....") %>%
+  ditch_letters("ose") %>%
+  head()
+```
+Now, rather than just take the most frequent word from this list, let's count letter frequencies again.
+
+```{r}
+wordles %>%
+  keep_pattern (".r...") %>%
+  keep_letters("a") %>%
+  ditch_pattern("a....") %>%
+  ditch_letters("ose") %>%
+  letter_freqs()
+```
+
+Select a word with the most frequent two letters we don't already have:
+
+```{r}
+wordles %>%
+  keep_pattern (".r...") %>%
+  keep_letters("a") %>%
+  ditch_pattern("a....") %>%
+  ditch_letters("ose") %>%
+  keep_letters("it") %>%
+  head()
+```
+
+And so on...
+
+It would be fun to automate this process a little more.
+
+
+
 
