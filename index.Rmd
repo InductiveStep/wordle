@@ -105,7 +105,7 @@ no_lets_anywhere(c("zebra", "giraffe"), "zb")
 
 #### Filter/keep words with letters in particular positions
 
-Wordle's feedback can tell us that a letter is there somewhere but not in the position we guessed. {str_detect} already does what we need easily enough: a "." in a regex matches any letter, so we can easily negate that. This is a wrapper for ease of piping:
+Wordle's feedback can tell us that a letter is there somewhere but not in the position we guessed. `str_detect` already does what we need easily enough: a "." in a regex matches any letter, so we can easily negate that. This is a wrapper for ease of piping:
 
 ```{r}
 ditch_pattern <- function(data, match) {
@@ -129,7 +129,7 @@ wordles %>%
   ditch_pattern("..in.")
 ```
 
-{keep_pattern} works similarly:
+`keep_pattern` works similarly:
 
 ```{r}
 keep_pattern <- function(data, match) {

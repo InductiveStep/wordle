@@ -259,7 +259,7 @@ names(words) &lt;- c(&quot;word&quot;, &quot;freq&quot;)</code></pre>
 </div>
 <div id="filterkeep-words-with-letters-in-particular-positions" class="section level4">
 <h4>Filter/keep words with letters in particular positions</h4>
-<p>Wordle’s feedback can tell us that a letter is there somewhere but not in the position we guessed. {str_detect} already does what we need easily enough: a “.” in a regex matches any letter, so we can easily negate that. This is a wrapper for ease of piping:</p>
+<p>Wordle’s feedback can tell us that a letter is there somewhere but not in the position we guessed. <code>str_detect</code> already does what we need easily enough: a “.” in a regex matches any letter, so we can easily negate that. This is a wrapper for ease of piping:</p>
 <pre class="r"><code>ditch_pattern &lt;- function(data, match) {
   data %&gt;%
     filter(!str_detect(word, match))
@@ -283,7 +283,7 @@ names(words) &lt;- c(&quot;word&quot;, &quot;freq&quot;)</code></pre>
 ## 2 right 2576821
 ## 3 about 2487348
 ## 4 would 1340070</code></pre>
-<p>{keep_pattern} works similarly:</p>
+<p><code>keep_pattern</code> works similarly:</p>
 <pre class="r"><code>keep_pattern &lt;- function(data, match) {
   data %&gt;%
     filter(str_detect(word, match))
