@@ -243,7 +243,7 @@ First, some functions to count letter frequency.
 ```{r}
 long_wordles <- function(wordles) {
   wordle_chars <- sapply(str_split(wordles$word, ""),
-                       c) %>% 
+                         c) %>% 
   t()
   
   colnames(wordle_chars) <- paste("c", 1:5, sep = "_")

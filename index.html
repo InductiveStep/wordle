@@ -381,7 +381,7 @@ keep_letters &lt;- function(data, match) {
 <p>First, some functions to count letter frequency.</p>
 <pre class="r"><code>long_wordles &lt;- function(wordles) {
   wordle_chars &lt;- sapply(str_split(wordles$word, &quot;&quot;),
-                       c) %&gt;% 
+                         c) %&gt;% 
   t()
   
   colnames(wordle_chars) &lt;- paste(&quot;c&quot;, 1:5, sep = &quot;_&quot;)
