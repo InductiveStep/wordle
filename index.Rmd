@@ -21,6 +21,8 @@ First, get the {tidyverse} loaded:
 library(tidyverse)
 ```
 
+We won't need anything else that's not already in base R.
+
 ### Words
 
 We'll need a dictionary. I wanted word frequencies too. After not being satisfied with dictionaries built into CRAN packages, my wanders around the web led me to [Wiktionary](https://en.wiktionary.org/)'s page on [frequency lists](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists#English). I (arbitrarily) opted for a [dataset](https://github.com/hermitdave/FrequencyWords/) developed by analysing an open subtitle corpus.
@@ -43,7 +45,7 @@ And take a look:
 head(words, 10)
 ```
 
-Next, filter to only words of length 5 and tidy a little to remove words with apostrophes, etc.
+Next, filter to only words of length 5 and tidy a little to remove words with apostrophes and other non-letter characters.
 
 ```{r}
 wordles <- words %>%
@@ -75,11 +77,13 @@ all_lets_somewhere <- Vectorize(function(str, lets) {
 }, vectorize.args = "str")
 ```
 
-Here's how it works:
+Here's how it works -- test whether "e" is in each word:
 
 ```{r}
 all_lets_somewhere(c("lovely", "weather"), "e")
 ```
+
+Test whether "e" and "w" are in each word:
 
 ```{r}
 all_lets_somewhere(c("lovely", "weather"), "ew")
@@ -94,7 +98,7 @@ no_lets_anywhere <- Vectorize(function(str, lets) {
 }, vectorize.args = "str")
 ```
 
-Here's how it works:
+Here's how it works -- test whether neither "z" nor "b" are in each word:
 
 ```{r}
 no_lets_anywhere(c("zebra", "giraffe"), "zb")
@@ -105,7 +109,7 @@ no_lets_anywhere(c("zebra", "giraffe"), "zb")
 
 #### Filter/keep words with letters in particular positions
 
-Wordle's feedback can tell us that a letter is there somewhere but not in the position we guessed. `str_detect` already does what we need easily enough: a "." in a regex matches any letter, so we can negate that. This is a wrapper for ease of piping:
+Wordle's feedback can tell us that a letter is there somewhere but not in the position we guessed. `str_detect` already does what we need easily enough: a "." in a [regex](https://en.wikipedia.org/wiki/Regular_expression) matches any letter, so we can negate that. This is a wrapper for ease of piping:
 
 ```{r}
 ditch_pattern <- function(data, match) {
@@ -148,7 +152,7 @@ wordles %>%
 
 #### Final filter helpers
 
-These just make it easier to use functions above in a pipe:
+These functions just make it easier to use functions above in a pipe:
 
 ```{r}
 ditch_letters <- function(data, match) {
@@ -165,9 +169,9 @@ keep_letters <- function(data, match) {
 
 ### Test drive
 
-Let's give it a go. These examples use a wordle from a few days ago, so hopefully no spoilers!
+Let's give it a go. The example wordle I'm using here is from a few days ago, so hopefully no spoilers.
 
-To get started, let's use the most frequent word with a handful of vowels:
+To get started, let's use the most frequent word that has a handful of vowels, "a", "i", and "e":
 
 ```{r}
 wordles %>%
@@ -181,7 +185,7 @@ We have one hit!
 ![](wordle_1.png){width=200px}
 
 
-So we want to keep all words with "l" in the second character and ditch the others:
+So we want to keep all words with "L" in the second character and ditch the others:
 
 ```{r}
 wordles %>%
@@ -195,7 +199,7 @@ I'll just go for the most frequent word in the remaining data.
 
 ![](wordle_2.png){width=200px}
 
-No new matches! But we can ditch three more letters.
+No new matches, but we can ditch three more letters so all is not lost.
 
 ```{r}
 wordles %>%
@@ -210,7 +214,7 @@ Let's go for the most frequent word again:
 
 ![](wordle_3.png){width=200px}
 
-More matches. Let's filter some more. I have also removed words ending "s" as it seems unlikely wordles would just be plurals, and the top matches ending "s" weren't singular nouns (like the four letter one, "news").
+More matches and letters to ditch to help narrow in on the answer. I have also removed words ending "s" as it seems unlikely wordles would just be plurals, and the top matches ending "s" weren't singular nouns ("dress" would be an example that is).
 
 ```{r}
 wordles %>%
