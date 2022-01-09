@@ -1,7 +1,7 @@
 ---
 title: "Wordle helper (or, how to cheat at Wordle)"
 author: "Andi Fugard"
-date: "08/01/2022"
+date: "09/01/2022"
 output: html_document
 ---
 
@@ -25,7 +25,7 @@ We won't need anything else that's not already in base R.
 
 ### Words
 
-We'll need a dictionary. I wanted word frequencies too. After not being satisfied with dictionaries built into CRAN packages, my wander around the web led me to [Wiktionary](https://en.wiktionary.org/)'s page on [frequency lists](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists#English). I (arbitrarily) opted for a [dataset](https://github.com/hermitdave/FrequencyWords/) developed by analysing an open subtitle corpus.
+We'll need a dictionary. I wanted word frequencies too, since we know that the game has about 2,000 words in total and I assume they have been selected so it's possible to guess them in six moves. After being dissatisfied with dictionaries built into CRAN packages, my wander around the web led me to [Wiktionary](https://en.wiktionary.org/)'s page on [frequency lists](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists#English). I (arbitrarily) opted for a [dataset](https://github.com/hermitdave/FrequencyWords/) developed by analysing an open subtitle corpus.
 
 Let's grab it directly from the GitHub repo:
 
@@ -44,6 +44,7 @@ And take a look:
 ```{r}
 head(words, 10)
 ```
+So the word "you" appears 28.8 million times in the corpus.
 
 Next, filter to only words of length 5 and tidy a little to remove words with apostrophes and other non-letter characters.
 
@@ -67,7 +68,7 @@ That looks better, though I'm not sure all those words are gonna to be a wordle.
 
 ### Helpers
 
-Tidyverse and base R already have everything I need to filter this word list. I just want some helper functions to make them easier to use.
+Tidyverse and base R already have all the functions I need to filter this word list as we learn more about what letters are and are not in a wordle. I just want some helper functions to make them easier to use.
 
 #### All words that have particular letters somewhere
 
@@ -234,11 +235,11 @@ Again, let's go for the most frequent match:
 And we're done.
 
 
-### Revisiting the word list
+### Revisiting the word list: letter frequency
 
 Let's see whether frequency analysis can help us be a little cleverer in searching.
 
-First, some functions to count letter frequency.
+First, functions to count letter frequency.
 
 ```{r}
 long_wordles <- function(wordles) {
@@ -330,7 +331,3 @@ wordles %>%
 And so on...
 
 It would be fun to automate this process a little more.
-
-
-
-
