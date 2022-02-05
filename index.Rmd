@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-This is my approach to solving/cheating at [Wordle](https://www.powerlanguage.co.uk/wordle/).
+This is my approach to solving/cheating at [Wordle](https://www.powerlanguage.co.uk/wordle/). The version for Russian Wordle is [here](https://inductivestep.github.io/wordle/wordle_ru.nb.html).
 
 
 ### Package(s)

@@ -172,7 +172,7 @@ pre code {
 </div>
 
 
-<p>This is my approach to solving/cheating at <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.</p>
+<p>This is my approach to solving/cheating at <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>. The version for Russian Wordle is <a href="https://inductivestep.github.io/wordle/wordle_ru.nb.html">here</a>.</p>
 <div id="packages" class="section level3">
 <h3>Package(s)</h3>
 <p>First, get the {tidyverse} loaded:</p>
@@ -180,8 +180,8 @@ pre code {
 <pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
 <pre><code>## v ggplot2 3.3.5     v purrr   0.3.4
 ## v tibble  3.1.6     v dplyr   1.0.7
-## v tidyr   1.1.4     v stringr 1.4.0
-## v readr   2.1.0     v forcats 0.5.1</code></pre>
+## v tidyr   1.2.0     v stringr 1.4.0
+## v readr   2.1.2     v forcats 0.5.1</code></pre>
 <pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -412,7 +412,8 @@ keep_letters &lt;- function(data, match) {
 <pre class="r"><code>wordles %&gt;%
   head(1000) %&gt;%
   letter_freqs()</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;word&#39;, &#39;freq&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;word&#39;, &#39;freq&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 26 x 3
 ##    let       n  perc
 ##    &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
@@ -461,7 +462,8 @@ keep_letters &lt;- function(data, match) {
   ditch_pattern(&quot;a....&quot;) %&gt;%
   ditch_letters(&quot;ose&quot;) %&gt;%
   letter_freqs()</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;word&#39;, &#39;freq&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;word&#39;, &#39;freq&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 23 x 3
 ##    let       n  perc
 ##    &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
