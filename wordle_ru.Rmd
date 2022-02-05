@@ -2,7 +2,9 @@
 title: "Wordle in Russian"
 author: "Andi Fugard"
 date: "04/02/2022"
-output: html_notebook
+output: 
+  html_notebook: 
+    code_folding: none
 ---
 
 ```{r setup, include=TRUE}
@@ -32,7 +34,7 @@ tolower("КОГДА")
 
 ### Words
 
-I'm using the Russian version of the word list, directly from the GitHub repo:
+I'm using the Russian version of the word list previously discussed over [here](https://inductivestep.github.io/wordle/), directly from the GitHub repo:
 
 ```{r}
 words <-
